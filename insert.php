@@ -27,12 +27,7 @@ $base = ($dist * $r) + $l + $u;
 $tax = $base * ($g / 100);
 $total = $base + $tax;
 
-// Insert
-// $sql = "INSERT INTO invoices (customerName, phone, vehicleNumber, source, destination, distance, rate, loadCharge, unloadCharge, gst, totalAmount)
-//         VALUES ('$c', '$p', '$v', '$s', '$d', $dist, $r, $l, $u, $g, $total)";
-
-
-
+// New insert Data
 $sql = "INSERT INTO invoices (customerName, phone, vehicleNumber, source, destination, distance, rate, loadCharge, unloadCharge, gst, totalAmount)
         VALUES ('$c', '$p', '$v', '$s', '$d', $dist, $r, $l, $u, $g, $total)";
 
