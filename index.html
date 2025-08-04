@@ -1,27 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>OG Transport Invoice</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>OG Transport Invoice Form</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container mt-4">
-    <h2>Transport Invoice Form</h2>
-    <form method="POST" action="insert.php">
-      <div class="row">
-        <div class="col-md-6 mb-2"><input class="form-control" type="text" name="customerName" placeholder="Customer Name" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="text" name="phone" placeholder="Phone" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="text" name="vehicleNumber" placeholder="Vehicle Number" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="text" name="source" placeholder="Source" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="text" name="destination" placeholder="Destination" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="number" name="distance" placeholder="Distance (km)" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="number" name="rate" placeholder="Rate per km" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="number" name="loadCharge" placeholder="Loading Charge" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="number" name="unloadCharge" placeholder="Unloading Charge" required></div>
-        <div class="col-md-6 mb-2"><input class="form-control" type="number" name="gst" placeholder="GST %" required></div>
+
+  <h2>OG Transport Tax Invoice</h2>
+
+  <form action="save_invoice.php" method="POST">
+    
+    <!-- Invoice Header Details -->
+    <div class="grid">
+      <div>
+        <label>Company</label>
+        <input type="text" name="company" placeholder="Enter company name" required>
       </div>
-      <button class="btn btn-success mt-3" type="submit">Submit</button>
-    </form>
-  </div>
+
+      <div>
+        <label>Unit</label>
+        <input type="text" name="unit">
+      </div>
+
+      <div>
+        <label>Bill Date</label>
+        <input type="date" name="billDate">
+      </div>
+
+      <div>
+        <label>Our State Code</label>
+        <input type="text" name="ourStateCode">
+      </div>
+
+      <div>
+        <label>Party Name</label>
+        <input type="text" name="partyName">
+      </div>
+
+      <div>
+        <label>Locker No</label>
+        <input type="text" name="lockerNo">
+      </div>
+
+      <div>
+        <label>Employee</label>
+        <input type="text" name="employee">
+      </div>
+
+      <div>
+        <label>Bill No</label>
+        <input type="text" name="billNo">
+      </div>
+
+      <div>
+        <label>Vendor State Code</label>
+        <input type="text" name="vendorStateCode">
+      </div>
+
+      <div>
+        <label>Remark</label>
+        <input type="text" name="remark">
+      </div>
+
+      <div>
+        <label>PO No</label>
+        <input type="text" name="poNo">
+      </div>
+
+      <div>
+        <label>PO Date</label>
+        <input type="date" name="poDate">
+      </div>
+
+      <div>
+        <label>Fin Year</label>
+        <input type="text" name="finYear">
+      </div>
+
+      <div>
+        <label>GST Required</label>
+        <select name="gstRequired">
+          <option value="YES">YES</option>
+          <option value="NO">NO</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Invoice Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Travel Date</th>
+          <th>Heading</th>
+          <th>Particulars</th>
+          <th>HSN Code</th>
+          <th>CGST %</th>
+          <th>SGST %</th>
+          <th>IGST %</th>
+          <th>KMs</th>
+          <th>Rate</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody id="invoice-rows">
+        <tr>
+          <td><input type="date" name="travelDate[]"></td>
+          <td><input type="text" name="heading[]"></td>
+          <td><input type="text" name="particulars[]"></td>
+          <td><input type="text" name="hsn[]"></td>
+          <td><input type="number" name="cgst[]" step="0.01"></td>
+          <td><input type="number" name="sgst[]" step="0.01"></td>
+          <td><input type="number" name="igst[]" step="0.01"></td>
+          <td><input type="number" name="kms[]" step="0.01"></td>
+          <td><input type="number" name="rate[]" step="0.01"></td>
+          <td><input type="number" name="amount[]" step="0.01"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Summary Section -->
+    <div class="summary">
+      <div>
+        <label>Total Amount</label>
+        <input type="number" name="totalAmount">
+        
+        <label>CGST Amount</label>
+        <input type="number" name="cgstAmt">
+        
+        <label>SGST Amount</label>
+        <input type="number" name="sgstAmt">
+        
+        <label>IGST Amount</label>
+        <input type="number" name="igstAmt">
+        
+        <label><strong>Gross Total</strong></label>
+        <input type="number" name="grossTotal">
+      </div>
+
+      <div>
+        <label><input type="checkbox" name="fixRate"> Fix Rate</label><br>
+        <label><input type="checkbox" name="runningKm"> Running KM</label><br><br>
+        <button type="button" onclick="addRow()">+ Add Row</button>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="buttons">
+      <button type="submit">Save</button>
+      <button type="reset">Clear</button>
+      <button type="button" onclick="window.print()">Print</button>
+    </div>
+
+  </form>
+
+  <!-- JavaScript for Adding Rows -->
+  <script>
+    function addRow() {
+      const table = document.getElementById('invoice-rows');
+      const newRow = table.rows[0].cloneNode(true);
+      newRow.querySelectorAll("input").forEach(input => input.value = "");
+      table.appendChild(newRow);
+    }
+  </script>
+
 </body>
 </html>
