@@ -3,7 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <title>OG Transport Invoice Form</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      background-color: #0077b6;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .grid label {
+      font-weight: bold;
+    }
+
+    .grid input, .grid select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #0077b6;
+      color: white;
+    }
+
+    table input {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .summary label {
+      font-weight: bold;
+    }
+
+    .summary input[type="number"],
+    .summary input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .summary input[type="checkbox"] {
+      transform: scale(1.2);
+      margin-right: 5px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      margin: 10px 10px 0;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background-color: #005f87;
+    }
+
+    #searchInput {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 7px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .summary {
+        flex-direction: column;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -11,73 +134,20 @@
 
   <form action="save_invoice.php" method="POST">
 
-
     <div class="grid">
-      <div>
-        <label>Company</label>
-        <input type="text" name="company" placeholder="Enter company name" required>
-      </div>
-
-      <div>
-        <label>Unit</label>
-        <input type="text" name="unit">
-      </div>
-
-      <div>
-        <label>Bill Date</label>
-        <input type="date" name="billDate">
-      </div>
-
-      <div>
-        <label>Our State Code</label>
-        <input type="text" name="ourStateCode">
-      </div>
-
-      <div>
-        <label>Party Name</label>
-        <input type="text" name="partyName">
-      </div>
-
-      <div>
-        <label>Locker No</label>
-        <input type="text" name="lockerNo">
-      </div>
-
-      <div>
-        <label>Employee</label>
-        <input type="text" name="employee">
-      </div>
-
-      <div>
-        <label>Bill No</label>
-        <input type="text" name="billNo">
-      </div>
-
-      <div>
-        <label>Vendor State Code</label>
-        <input type="text" name="vendorStateCode">
-      </div>
-
-      <div>
-        <label>Remark</label>
-        <input type="text" name="remark">
-      </div>
-
-      <div>
-        <label>PO No</label>
-        <input type="text" name="poNo">
-      </div>
-
-      <div>
-        <label>PO Date</label>
-        <input type="date" name="poDate">
-      </div>
-
-      <div>
-        <label>Fin Year</label>
-        <input type="text" name="finYear">
-      </div>
-
+      <div><label>Company</label><input type="text" name="company" placeholder="Enter company name" required></div>
+      <div><label>Unit</label><input type="text" name="unit"></div>
+      <div><label>Bill Date</label><input type="date" name="billDate"></div>
+      <div><label>Our State Code</label><input type="text" name="ourStateCode"></div>
+      <div><label>Party Name</label><input type="text" name="partyName"></div>
+      <div><label>Locker No</label><input type="text" name="lockerNo"></div>
+      <div><label>Employee</label><input type="text" name="employee"></div>
+      <div><label>Bill No</label><input type="text" name="billNo"></div>
+      <div><label>Vendor State Code</label><input type="text" name="vendorStateCode"></div>
+      <div><label>Remark</label><input type="text" name="remark"></div>
+      <div><label>PO No</label><input type="text" name="poNo"></div>
+      <div><label>PO Date</label><input type="date" name="poDate"></div>
+      <div><label>Fin Year</label><input type="text" name="finYear"></div>
       <div>
         <label>GST Required</label>
         <select name="gstRequired">
@@ -86,8 +156,6 @@
         </select>
       </div>
     </div>
-
-
 
     <table>
       <thead>
@@ -104,42 +172,37 @@
           <th>Total Amount</th>
         </tr>
       </thead>
+
       <tbody id="invoice-rows">
         <tr>
           <td><input type="date" name="travelDate[]"></td>
           <td><input type="text" name="heading[]"></td>
           <td><input type="text" name="particulars[]"></td>
-          <td><input type="text" name="hsn[]"></td>          
-          <td><input type="number" name="cgst[]" class="cgst" step="0.01" oninput="calculateRowTotal(this)"></td>
-          <td><input type="number" name="sgst[]" class="sgst" step="0.01" oninput="calculateRowTotal(this)"></td>
-          <td><input type="number" name="igst[]" class="igst" step="0.01" oninput="calculateRowTotal(this)"></td>
-          <td><input type="number" name="kms[]" class="kms" step="0.01" oninput="calculateRowTotal(this)"></td>
-          <td><input type="number" name="rate[]" class="rate" step="0.01" oninput="calculateRowTotal(this)"></td>
+          <td><input type="text" name="hsn[]"></td>
+          <td><input type="number" name="cgst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
+          <td><input type="number" name="sgst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
+          <td><input type="number" name="igst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
+          <td><input type="number" name="kms[]" step="0.01" oninput="calculateRowTotal(this)"></td>
+          <td><input type="number" name="rate[]" step="0.01" oninput="calculateRowTotal(this)"></td>
           <td><input type="number" name="amount[]" class="row-total" readonly></td>
-          <input type="number" name="amount[]" step="0.01">
         </tr>
       </tbody>
     </table>
 
-
+  
     <div class="summary">
       <div>
         <label>Total Amount</label>
         <input type="number" name="totalAmount">
-        
         <label>CGST Amount</label>
         <input type="number" name="cgstAmt">
-        
         <label>SGST Amount</label>
         <input type="number" name="sgstAmt">
-        
         <label>IGST Amount</label>
         <input type="number" name="igstAmt">
-        
         <label><strong>Gross Total</strong></label>
         <input type="text" name="grossTotal" readonly>
       </div>
-
       <div>
         <label><input type="checkbox" name="fixRate"> Fix Rate</label><br>
         <label><input type="checkbox" name="runningKm"> Running KM</label><br><br>
@@ -147,23 +210,17 @@
       </div>
     </div>
 
-
-
-
     <div class="buttons">
       <button type="submit">Save</button>
       <button type="reset">Clear</button>
-      <button type="button" onclick="window.print()">Print</button>
-      <button type="button" onclick="html2pdf().from(document.body).save('invoice.pdf')">Download PDF</button>
-
-        <input type="text" id="searchInput" placeholder="Search invoice items..." onkeyup="searchInvoiceRows()" style="margin-bottom: 10px; padding: 5px; width: 300px;">
+      <button type="button" onclick="window.print()">Download</button>
+      <br>
+      <input type="text" id="searchInput" placeholder="Search invoice items..." onkeyup="searchInvoiceRows()" />
     </div>
 
   </form>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script src="script.js"></script>
+ <script src="script.js"></script>
 
 </body>
 </html>
