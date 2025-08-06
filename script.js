@@ -81,15 +81,25 @@ function addRow() {
 }
 
 
+
+
 function searchInvoiceRows() {
   const query = document.getElementById('searchInput').value.toLowerCase();
   const rows = document.querySelectorAll('#invoice-rows tr');
 
   rows.forEach(row => {
-    const text = row.innerText.toLowerCase();
-    row.style.display = text.includes(query) ? "" : "none";
+    const inputValues = Array.from(row.querySelectorAll('input'))
+      .map(input => input.value.toLowerCase())
+      .join(" ");
+
+    row.style.display = inputValues.includes(query) ? "" : "none";
   });
 }
 
+
 document.querySelector('input[name="fixRate"]').addEventListener('change', calculateTotals);
 document.querySelector('input[name="runningKm"]').addEventListener('change', calculateTotals);
+
+
+
+
