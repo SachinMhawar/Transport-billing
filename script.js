@@ -1,35 +1,84 @@
-  function addRow() {
-      const table = document.getElementById("invoice-rows");
-      const newRow = table.rows[0].cloneNode(true);
-      newRow.querySelectorAll("input").forEach(input => input.value = "");
-      table.appendChild(newRow);
+
+function calculateRowTotal(input) {
+  const row = input.closest("tr");
+  const cgst = parseFloat(row.querySelector('input[name="cgst[]"]').value) || 0;
+  const sgst = parseFloat(row.querySelector('input[name="sgst[]"]').value) || 0;
+  const igst = parseFloat(row.querySelector('input[name="igst[]"]').value) || 0;
+  const kms = parseFloat(row.querySelector('input[name="kms[]"]').value) || 0;
+  const rate = parseFloat(row.querySelector('input[name="rate[]"]').value) || 0;
+
+  const fixRateChecked = document.querySelector('input[name="fixRate"]').checked;
+  const runningKmChecked = document.querySelector('input[name="runningKm"]').checked;
+
+  let baseAmount = 0;
+
+  if (fixRateChecked) {
+    baseAmount = rate;
+  } else if (runningKmChecked) {
+    baseAmount = kms * rate;
+  } else {
+    baseAmount = kms * rate;
+  }
+
+  const taxPercent = cgst + sgst + igst;
+  const taxAmount = (baseAmount * taxPercent) / 100;
+  const total = baseAmount + taxAmount;
+
+  row.querySelector('input[name="amount[]"]').value = total.toFixed(2);
+
+  calculateTotals();
+}
+
+
+
+function calculateTotals() {
+  let totalBase = 0, cgstAmt = 0, sgstAmt = 0, igstAmt = 0;
+
+  const fixRateChecked = document.querySelector('input[name="fixRate"]').checked;
+  const runningKmChecked = document.querySelector('input[name="runningKm"]').checked;
+
+  document.querySelectorAll('#invoice-rows tr').forEach(row => {
+    const kms = parseFloat(row.querySelector('input[name="kms[]"]').value) ||  0;
+    const rate = parseFloat(row.querySelector('input[name="rate[]"]').value) || 0;
+    const cgst = parseFloat(row.querySelector('input[name="cgst[]"]').value) || 0;
+    const sgst = parseFloat(row.querySelector('input[name="sgst[]"]').value) || 0;
+    const igst = parseFloat(row.querySelector('input[name="igst[]"]').value) || 0;
+
+    let base = 0;
+
+    if (fixRateChecked) {
+      base = rate;
+    } else if (runningKmChecked) {
+      base = kms * rate;
+    } else {
+      base = kms * rate;
     }
 
-    function calculateRowTotal(element) {
-      const row = element.closest("tr");
-      const kms = parseFloat(row.querySelector('input[name="kms[]"]').value) || 0;
-      const rate = parseFloat(row.querySelector('input[name="rate[]"]').value) || 0;
-      const cgst = parseFloat(row.querySelector('input[name="cgst[]"]').value) || 0;
-      const sgst = parseFloat(row.querySelector('input[name="sgst[]"]').value) || 0;
-      const igst = parseFloat(row.querySelector('input[name="igst[]"]').value) || 0;
+    totalBase += base;
+    cgstAmt += (base * cgst) / 100;
+    sgstAmt += (base * sgst) / 100;
+    igstAmt += (base * igst) / 100;
+  });
 
-      const base = kms * rate;
-      const tax = base * (cgst + sgst + igst) / 100;
-      const total = base + tax;
+  const grossTotal = totalBase + cgstAmt + sgstAmt + igstAmt;
 
-      row.querySelector('.row-total').value = total.toFixed(2);
+  document.querySelector('input[name="cgstAmt"]').value = cgstAmt.toFixed(2);
+  document.querySelector('input[name="sgstAmt"]').value = sgstAmt.toFixed(2);
+  document.querySelector('input[name="igstAmt"]').value = igstAmt.toFixed(2);
+  document.querySelector('input[name="grossTotal"]').value = grossTotal.toFixed(2);
+}
 
-      calculateGrandTotal();
-    }
 
-    function calculateGrandTotal() {
-      let grandTotal = 0;
-      document.querySelectorAll('.row-total').forEach(input => {
-        grandTotal += parseFloat(input.value) || 0;
-      });
-      document.querySelector('input[name="grossTotal"]').value = grandTotal.toFixed(2);
-    }
+function addRow() {
+  const table = document.getElementById('invoice-rows');
+  const newRow = table.rows[0].cloneNode(true);
 
+  newRow.querySelectorAll("input").forEach(input => {
+    input.value = "";
+  });
+
+  table.appendChild(newRow);
+}
 
 
 function searchInvoiceRows() {
@@ -37,15 +86,10 @@ function searchInvoiceRows() {
   const rows = document.querySelectorAll('#invoice-rows tr');
 
   rows.forEach(row => {
-    let match = false;
-    const inputs = row.querySelectorAll('input');
-
-    inputs.forEach(input => {
-      if (input.value.toLowerCase().includes(query)) {
-        match = true;
-      }
-    });
-
-    row.style.display = match ? '' : 'none';
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(query) ? "" : "none";
   });
 }
+
+document.querySelector('input[name="fixRate"]').addEventListener('change', calculateTotals);
+document.querySelector('input[name="runningKm"]').addEventListener('change', calculateTotals);

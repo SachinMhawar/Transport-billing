@@ -13,18 +13,19 @@
 
     <div class="grid">
       <div><label>Company</label><input type="text" name="company" placeholder="Enter company name" required></div>
-      <div><label>Unit</label><input type="text" name="unit"></div>
+      <div><label>Unit</label><input type="number" name="unit" placeholder="Enter Unit"></div>
       <div><label>Bill Date</label><input type="date" name="billDate"></div>
-      <div><label>Our State Code</label><input type="text" name="ourStateCode"></div>
-      <div><label>Party Name</label><input type="text" name="partyName"></div>
-      <div><label>Locker No</label><input type="text" name="lockerNo"></div>
+      <div><label>Our State Code</label><input type="number" name="ourStateCode" placeholder="Enter Our State Code"></div>
+      <div><label>Party Name</label><input type="text" name="partyName" placeholder="Enter Party Name "></div>
+      <div><label>Locker No</label><input type="number" name="lockerNo" placeholder="Enter Locker No"></div>
       <div><label>Employee</label><input type="text" name="employee"></div>
-      <div><label>Bill No</label><input type="text" name="billNo"></div>
-      <div><label>Vendor State Code</label><input type="text" name="vendorStateCode"></div>
+      <div><label>Bill No</label><input type="number" name="billNo" placeholder="Enter 
+Bill No"></div>
+      <div><label>Vendor State Code</label><input type="number" name="vendorStateCode" placeholder="Enter Vendor State Code"></div>
       <div><label>Remark</label><input type="text" name="remark"></div>
-      <div><label>PO No</label><input type="text" name="poNo"></div>
+      <div><label>PO No</label><input type="number" name="poNo" placeholder="Enter PO No"></div>
       <div><label>PO Date</label><input type="date" name="poDate"></div>
-      <div><label>Fin Year</label><input type="text" name="finYear"></div>
+      <div><label>Fin Year</label><input type="number" name="finYear"></div>
       <div>
         <label>GST Required</label>
         <select name="gstRequired">
@@ -55,7 +56,7 @@
           <td><input type="date" name="travelDate[]"></td>
           <td><input type="text" name="heading[]"></td>
           <td><input type="text" name="particulars[]"></td>
-          <td><input type="text" name="hsn[]"></td>
+          <td><input type="number" name="hsn[]" ></td>
           <td><input type="number" name="cgst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
           <td><input type="number" name="sgst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
           <td><input type="number" name="igst[]" step="0.01" oninput="calculateRowTotal(this)"></td>
@@ -69,20 +70,22 @@
   
     <div class="summary">
       <div>
-        <label>Total Amount</label>
-        <input type="number" name="totalAmount">
+        <!-- <label>Total Amount</label>
+        <input type="number" name="totalAmount"> -->
         <label>CGST Amount</label>
         <input type="number" name="cgstAmt">
         <label>SGST Amount</label>
         <input type="number" name="sgstAmt">
         <label>IGST Amount</label>
         <input type="number" name="igstAmt">
+  
         <label><strong>Gross Total</strong></label>
         <input type="text" name="grossTotal" readonly>
       </div>
       <div>
         <label><input type="checkbox" name="fixRate"> Fix Rate</label><br>
-        <label><input type="checkbox" name="runningKm"> Running KM</label><br><br>
+        <label><input type="checkbox" name="runningKm"> Running KM</label>
+        <br><br>
         <button type="button" onclick="addRow()">+ Add Row</button>
       </div>
     </div>
@@ -98,6 +101,7 @@
   </form>
 
  <script src="script.js"></script>
+
 
 </body>
 </html>
